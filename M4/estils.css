@@ -37,14 +37,11 @@ body {
     gap: 8px;
 }
 
-.game-logo .material-icons-outlined {
-    font-size: 32px;
+.game-logo img {
+    width: 100px;
 }
 
-.game-logo h1 {
-    margin: 0;
-    font-size: 26px;
-}
+
 
 .menu {
     list-style: none;
@@ -67,4 +64,43 @@ body {
 .menu a.active {
     background-color: #e3f2fd;
     color: #1e88e5;
+}
+
+.footer {
+    background-color: #0d47a1;
+    color: white;
+    padding: 15px 0;
+    margin-top: 50px;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    transition: transform 0.3s;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
 }
