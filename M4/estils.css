@@ -122,3 +122,64 @@ body {
     width: 800px;
 }
 
+@keyframes revealAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(100px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.adventure-container {
+    max-width: 1100px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.adventure-step {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 100px;
+}
+
+.step-text {
+    flex: 1;
+}
+
+.step-text h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #0d47a1;
+    font-size: 32px;
+}
+
+.step-image {
+    flex: 1;
+}
+
+.step-image img {
+    width: 85%;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.5s ease;
+}
+
+.adventure-step:hover .step-image img {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .adventure-step {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .adventure-step:nth-child(even) {
+        flex-direction: column-reverse !important;
+    }
+}
+
