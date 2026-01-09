@@ -2,9 +2,10 @@
 body {
     margin: 0;
     background-color: #e6f0fa; 
-    font-family: Arial, sans-serif;
+    font-family: 'Monserrat',sans-serif;
     color: #2c3e50;
 }
+
 
 .frecklefont {
     font-family: "Freckle Face", system-ui;
@@ -40,8 +41,6 @@ body {
 .game-logo img {
     width: 100px;
 }
-
-
 
 .menu {
     list-style: none;
@@ -104,3 +103,24 @@ body {
 .social-icons a:hover {
     transform: scale(1.2);
 }
+
+.hero {
+    text-align: center;
+    padding: 50px 20px 30px;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 3.2rem;
+    color: #0d47a1;
+    margin-bottom: 15px;
+}
+
+.hero-img {
+    width: 180px;
+    margin-top: 20px;
+    border: 3px solid #1e88e5;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
