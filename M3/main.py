@@ -1,4 +1,5 @@
-# Adventures
+from variables import CHARACTERS,USERS,ADVENTURES
+from functions import *
 menu = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
 
 salir = False
@@ -39,7 +40,22 @@ while not salir:
                 menu_principal = False
 
     while login:
-        print("login")
+        username = input("Escribe tu nombre de usuario\n")
+        password = input("Escribe la contraseña\n")
+        val = checkUserbdd(username,password)
+        if val == 0:
+            print("User NOT FOUND")
+        elif val == -1:
+            print("Incorrect Password")
+        else:
+            print("Correct User")
+            login = False
+            menu_principal = True
+
+        input("Enter to Continue")
+        username = ""
+        password = ""
+        print(getUserIds())
         login = False
         menu_principal = True
     while create_user:

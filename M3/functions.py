@@ -1,0 +1,51 @@
+# get_answers_bystep_adventure()
+# get_adventures_with_chars()
+# get_id_bystep_adventure()
+# get_first_step_adventure()
+# get_characters()
+# getReplayAdventures()
+# getChoices()
+# getIdGames()
+# insertCurrentGame(idGame,idUser,isChar,idAdventure)
+def getUsers():
+    from variables import USERS
+    return USERS
+def getUserIds():
+    lista_users = list(getUsers())
+    lista_ids = []
+    for clave in lista_users:
+        lista_ids.append(getUsers()[clave]["idUser"])
+    return list(lista_users+lista_ids)
+
+# insertUser(id, user, password)
+# get_table(query)
+def userExists(user):
+    lista_users = list(getUsers())
+    if user not in lista_users:
+        return False
+    else:
+        return True
+def checkUserbdd(user, password):
+    var = userExists(user)
+    if not var:
+        return 0
+    if password != getUsers()[user]["password"]:
+        return -1
+    return 1
+
+# setIdGame()
+# insertCurrentChoice(idGame, actual_id_step, id_answer)
+# formatText(text, lenLine, split)
+# getHeader(text)
+# getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0)
+# getFormatedAdventures(adventures)
+# getFormatedAnswers(idAnswer, text, lenLine, leftMargin)
+# getHeadeForTableFromTuples(t_name_columns, t_size_columns, title="")
+# getTableFromDict(tuple_of_keys, weigth_of_columns, dict_of_data)
+# getOpt(textOpts="", inputOptText="", rangeList=[], dictionary={}, exceptions=[])
+# getFormatedTable(queryTable, title="")
+# checkPassword(password)
+#def checkUser(user):
+# replay(choices)
+
+
