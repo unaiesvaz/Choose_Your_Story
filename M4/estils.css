@@ -1,0 +1,70 @@
+
+body {
+    margin: 0;
+    background-color: #e6f0fa; 
+    font-family: Arial, sans-serif;
+    color: #2c3e50;
+}
+
+.frecklefont {
+    font-family: "Freckle Face", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.topnav {
+    width: 100%;
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.game-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.game-logo .material-icons-outlined {
+    font-size: 32px;
+}
+
+.game-logo h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.menu a:hover,
+.menu a.active {
+    background-color: #e3f2fd;
+    color: #1e88e5;
+}
