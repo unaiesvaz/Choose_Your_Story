@@ -1,79 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estils.css">
-    <title>Choose Your Story</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choose Your Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="estils.css" />
 </head>
 <body>
-    <header class="topnav">
-        <div class="header-content">
-            <div class="game-logo">
-                <img src="assets/img/logo oficial.png">
-                <h1 class="frecklefont">Choose Your Story</h1>
-            </div>
-            <ul class="menu">
-                <li><a href="index.html" class="active">Inici</a></li>
-                <li><a href="instruccions.html">Instruccions</a></li>
-                <li><a href="historia.html">Història</a></li>
-                <li><a href="contacte.html">Contacte</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="usuaris.html">Usuaris Sistemes</a></li>
-            </ul>
-        </div>
-    </header>
-    
-    
-    <div class="hero">
-        <h1 class="frecklefont">¡El destí d'una vida depèn d'un clic. Estàs a l'altura?</h1>
-        <p class="facefont">
-            Preparat per crear la teva pròpia història? A "Choose Your Storie", tu no només jugues: tu decideixes qui sobreviu.
-        </p>    
-        <img src="assets/img/logoofgrande.png">
+  <header class="topnav">
+    <div class="header-content">
+      <div class="game-logo">
+        <img src="assets/img/logo oficial.png" alt="Logo del joc" />
+        <h1>Choose Your Story</h1>
+      </div>
+      <ul class="menu">
+        <li><a href="index.html" class="active">Inici</a></li>
+        <li><a href="instruccions.html">Instruccions</a></li>
+        <li><a href="historia.html">Història</a></li>
+        <li><a href="contacte.html">Contacte</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="usuaris.html">Usuaris Sistemes</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>¡El destí d'una vida depèn d'un clic. Estàs a l'altura?</h1>
+    <p>Preparat per crear la teva pròpia història? A "Choose Your Story", tu no només jugues: tu decideixes qui sobreviu.</p>
+    <img src="assets/img/logoofgrande.png" alt="Logotip gran del joc" />
+  </div>
+
+  <section class="adventure-container">
+    <div class="adventure-step">
+      <div class="step-text">
+        <h2>Pas 1: La Trucada</h2>
+        <p>Tot comença amb un so estrident. Una vida està en perill i tu ets l'únic que pot respondre.</p>
+      </div>
+      <div class="step-image">
+        <img src="assets/img/llamadaorf.png" alt="Trucada" />
+      </div>
     </div>
 
-    <section class="adventure-container">
-        <div class="adventure-step reveal">
-            <div class="step-text">
-                <h2>Pas 1: La Trucada</h2>
-                <p>Tot comença amb un so estrident. Una vida està en perill i tu ets l'únic que pot respondre.</p>
-            </div>
-            <div class="step-image">
-                <img src="assets/img/llamadaorf.png" alt="Trucada">
-            </div>
-        </div>
+    <div class="adventure-step reverse">
+      <div class="step-image">
+        <img src="assets/img/Decidir.png" alt="Decisió" />
+      </div>
+      <div class="step-text">
+        <h2>Pas 2: La Decisió</h2>
+        <p>Tens pocs segons. Envies una patrulla o una ambulància? El destí es decideix amb un clic.</p>
+      </div>
+    </div>
+  </section>
 
-        <div class="adventure-step reveal">
-            <div class="step-image">
-                <img src="assets/img/Decidir.png" alt="Decisió">
-            </div>
-            <div class="step-text">
-                <h2>Pas 2: La Decisió</h2>
-                <p>Tens pocs segons. Envies una patrulla o una ambulància? El destí es decideix amb un clic.</p>
-            </div>
-        </div>
-    </section>
+  <section class="how-to-play">
+    <div class="how-to-play-content">
+      <h2>Com es juga?</h2>
+      <ul>
+        <li>Rep trucades d'emergència i decideix ràpidament.</li>
+        <li>Tria entre recursos limitats: patrulla, ambulància o suport aeri.</li>
+        <li>Cada decisió afecta el final de la història.</li>
+        <li>Desbloqueja múltiples finals segons les teves accions.</li>
+      </ul>
+      <a href="instruccions.html" class="btn">Veure instruccions completes</a>
+    </div>
+  </section>
 
+  <div class="vector-animation">
+    <svg width="150" height="150" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="#0d47a1" stroke-width="2"/>
+      <path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="#1e88e5" stroke-width="3">
+        <animate attributeName="d" dur="3s" repeatCount="indefinite"
+          values="M30,50 Q50,30 70,50 Q50,70 30,50;
+                  M30,50 Q50,40 70,50 Q50,60 30,50;
+                  M30,50 Q50,30 70,50 Q50,70 30,50"/>
+      </path>
+    </svg>
+  </div>
 
-
-
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; Choose Your Story</p>
-            <div class="social-icons">
-                <a href="https://x.com/?lang=es"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/?locale=ca_ES"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.tiktok.com/es-419/"><i class="fab fa-tiktok"></i></a>
-            </div>
-        </div>
-    </footer>
-
-
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; Choose Your Story</p>
+      <div class="social-icons">
+        <a href="https://x.com/?lang=es" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/?locale=ca_ES" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.tiktok.com/es-419/" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
