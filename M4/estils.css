@@ -1,185 +1,238 @@
+/* Reset bàsic */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-    margin: 0;
-    background-color: #e6f0fa; 
-    font-family: 'Monserrat',sans-serif;
-    color: #2c3e50;
+  margin: 0;
+  background-color: #e6f0fa;
+  font-family: 'Montserrat', sans-serif;
+  color: #2c3e50;
+  line-height: 1.6;
 }
 
-
-.frecklefont {
-    font-family: "Freckle Face", system-ui;
-    font-weight: 400;
-    font-style: normal;
-}
-
+/* HEADER */
 .topnav {
-    width: 100%;
-    padding: 12px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .game-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .game-logo img {
-    width: 100px;
+  width: 100px;
+  height: auto;
 }
 
 .menu {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .menu a {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    padding: 5px 10px;
-    border-radius: 6px;
-    transition: background 0.3s;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
 .menu a:hover,
 .menu a.active {
-    background-color: #e3f2fd;
-    color: #1e88e5;
+  background-color: #e3f2fd;
+  color: #1e88e5;
 }
 
-.footer {
-    background-color: #0d47a1;
-    color: white;
-    padding: 15px 0;
-    margin-top: 50px;
-}
-
-.footer-content {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.footer-content p {
-    margin: 0;
-    font-size: 0.95rem;
-}
-
-.social-icons {
-    display: flex;
-    gap: 15px;
-}
-
-.social-icons a {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-    transition: transform 0.3s;
-}
-
-.social-icons a:hover {
-    transform: scale(1.2);
-}
-
+/* HERO */
 .hero {
-    text-align: center;
-
+  text-align: center;
+  padding: 40px 20px;
 }
 
 .hero h1 {
-    font-size: 50px;
-    color: #0d47a1;
+  font-size: 2.8rem;
+  color: #0d47a1;
+  margin-bottom: 16px;
 }
 
 .hero p {
-    margin-bottom: -50px;
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto 24px;
 }
 
 .hero img {
-    width: 800px;
+  width: min(800px, 90vw);
+  height: auto;
 }
 
-@keyframes revealAnimation {
-    from {
-        opacity: 0;
-        transform: translateY(100px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
+/* ADVENTURE STEPS */
 .adventure-container {
-    max-width: 1100px;
-    margin: 80px auto;
-    padding: 0 20px;
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
 }
 
 .adventure-step {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 80px;
 }
 
-.step-text {
-    flex: 1;
-}
 
 .step-text h2 {
-    font-family: 'Montserrat', sans-serif;
-    color: #0d47a1;
-    font-size: 32px;
-}
-
-.step-image {
-    flex: 1;
+  color: #0d47a1;
+  font-size: 2rem;
+  margin-bottom: 12px;
 }
 
 .step-image img {
-    width: 85%;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    transition: transform 0.5s ease;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease;
 }
 
-.adventure-step:hover .step-image img {
-    transform: scale(1.05);
+
+/* HOW TO PLAY */
+.how-to-play {
+  background-color: #ffffff;
+  padding: 60px 20px;
+  text-align: center;
 }
 
+.how-to-play h2 {
+  color: #0d47a1;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.how-to-play ul {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 0 auto 25px;
+  text-align: left;
+}
+
+.how-to-play li {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #1e88e5;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #0d47a1;
+}
+
+/* SVG ANIMATION */
+.vector-animation {
+  text-align: center;
+  margin: 40px 0;
+}
+
+/* FOOTER */
+.footer {
+  background-color: #0d47a1;
+  color: white;
+  padding: 15px 0;
+  margin-top: 50px;
+}
+
+.footer-content {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  transition: transform 0.3s;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
-    .adventure-step {
-        flex-direction: column !important;
-        text-align: center;
-        gap: 20px;
-    }
-    
-    .adventure-step:nth-child(even) {
-        flex-direction: column-reverse !important;
-    }
-}
+  .hero h1 {
+    font-size: 2rem;
+  }
 
+  .adventure-step {
+    flex-direction: column !important;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .adventure-step.reverse {
+    flex-direction: column !important;
+  }
+
+  .step-text h2 {
+    font-size: 1.6rem;
+  }
+
+  .menu {
+    gap: 12px;
+  }
+}
