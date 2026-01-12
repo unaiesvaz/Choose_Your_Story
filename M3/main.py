@@ -1,6 +1,7 @@
 from variables import CHARACTERS,USERS,ADVENTURES
 from functions import *
 menu = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
+menu_seleccion_historia = "Adventures".center(100,"=") + "\n\n" + "Id".ljust(3) + "Adventure".ljust(40) + "Description".ljust(57) + "\n" + "*".center(100,"*") + "\n"
 
 salir = False
 menu_principal = True
@@ -63,7 +64,32 @@ while not salir:
         create_user = False
         menu_principal = True
     while play_adventure:
-        print("play adventure")
+        datos = ""
+        datos_aventura = ""
+        datos_characters = ""
+        aventuras = get_adventures_with_chars()
+        for clave in aventuras:
+            datos += str(clave).ljust(3) + aventuras[clave]["Name"].ljust(40) + aventuras[clave]["Description"].ljust(57) + "\n"
+        print(menu_seleccion_historia+datos)
+
+        opcion_aventura = input("->Option: ")
+        while not opcion_aventura.isdigit() or int(opcion_aventura) not in aventuras.keys():
+            input("Invalid Option")
+            opcion_aventura = input("->Option: ")
+        opcion_aventura = int(opcion_aventura)
+        datos_aventura = "{}{}\n\n{}{}\n\n".format("Adventure:".ljust(15),aventuras[opcion_aventura]["Name"].ljust(65),"Description:".ljust(15),aventuras[opcion_aventura]["Description"].ljust(65))
+        print(getHeader(aventuras[opcion_aventura]["Name"])+datos_aventura)
+
+        characters = get_characters()
+        for clave in characters:
+            if clave in aventuras[opcion_aventura]["characters"]:
+                datos_characters += str(clave) + ")" + characters[clave] + "\n"
+
+        print("Characters".center(30, "=") + "\n" + datos_characters)
+
+
+
+
         play_adventure = False
         menu_principal = True
     while replay_adventure:

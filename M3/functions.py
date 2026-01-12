@@ -1,8 +1,12 @@
 # get_answers_bystep_adventure()
-# get_adventures_with_chars()
+def get_adventures_with_chars():
+    from variables import ADVENTURES
+    return ADVENTURES
 # get_id_bystep_adventure()
-# get_first_step_adventure()
-# get_characters()
+#def get_first_step_adventure():
+def get_characters():
+    from variables import CHARACTERS
+    return CHARACTERS
 # getReplayAdventures()
 # getChoices()
 # getIdGames()
@@ -36,7 +40,9 @@ def checkUserbdd(user, password):
 # setIdGame()
 # insertCurrentChoice(idGame, actual_id_step, id_answer)
 # formatText(text, lenLine, split)
-# getHeader(text)
+def getHeader(text):
+    header = "*".center(80,"*") + "\n" + text.center(80,"=") + "\n" + "*".center(80,"*") + "\n"
+    return header
 # getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0)
 # getFormatedAdventures(adventures)
 # getFormatedAnswers(idAnswer, text, lenLine, leftMargin)
