@@ -115,13 +115,7 @@ body {
   margin-bottom: 12px;
 }
 
-.step-image img {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  transition: transform 0.5s ease;
-}
+
 
 
 /* HOW TO PLAY */
@@ -240,3 +234,51 @@ body {
 /*FINAL DE INDEX.HTML*/
 
 /*INICIO DE Instrucciones*/
+
+
+.instructions-main {
+  padding: 40px 0;
+}
+
+.section-title {
+  text-align: center;
+  color: #0d47a1;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.adventure-step .step-text h3 {
+  color: #0d47a1;
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+
+.step-image img {
+  width: 100%;
+
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease;
+}
+.interactive-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.interactive-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+  }
+
+  .adventure-step .step-text h3 {
+    font-size: 1.4rem;
+  }
+}
