@@ -55,6 +55,64 @@ body {
   height: auto;
 }
 
+.scroll-reveal-block {
+    height: 150px;
+    margin: 40px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateY(100px);
+}
+
+.espacio_abajo{
+padding-bottom:20%;}
+
+@keyframes moveUp {
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@supports (animation-timeline: view()) {
+    .scroll-reveal-block {
+        animation: moveUp 1s forwards;
+        animation-timeline: view();
+    }
+
+    .reveal-1 {
+        animation-range: entry 20% cover 50%;
+
+    }
+    
+    .reveal-2 {
+        animation-range: entry 0% cover 40%;
+    }
+
+
+}
+
+@supports not (animation-timeline: view()) {
+    .scroll-reveal-block {
+        opacity: 0.5; 
+        transform: translateY(50px);
+    }
+    
+
+
+    .scroll-reveal-block::before {
+        content: " (Fallback: Navegador sense suport a scroll-timeline)";
+        font-size: 0.8em;
+        color: #c0392b;
+    }
+}
+
 .menu {
   list-style: none;
   display: flex;
