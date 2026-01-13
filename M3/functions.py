@@ -1,9 +1,15 @@
-# get_answers_bystep_adventure()
+def get_answers_bystep_adventure():
+    from variables import idAnswers_ByStep_Adventure
+    return idAnswers_ByStep_Adventure
 def get_adventures_with_chars():
     from variables import ADVENTURES
     return ADVENTURES
-# get_id_bystep_adventure()
-#def get_first_step_adventure():
+def get_id_bystep_adventure():
+    from variables import id_by_steps
+    return id_by_steps
+def get_first_step_adventure(id_adventure):
+    from variables import FIRST_STEP_BY_ADVENTURE
+    return FIRST_STEP_BY_ADVENTURE[id_adventure]
 def get_characters():
     from variables import CHARACTERS
     return CHARACTERS
