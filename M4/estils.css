@@ -1,4 +1,4 @@
-/* Reset bàsic */
+/* Reseteo */
 * {
   margin: 0;
   padding: 0;
@@ -173,6 +173,7 @@ padding-bottom:20%;}
   align-items: center;
   gap: 50px;
   margin-bottom: 80px;
+  text-align: center;
 }
 
 
