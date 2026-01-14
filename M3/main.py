@@ -66,7 +66,6 @@ while not salir:
         datos = ""
         datos_aventura = ""
         datos_characters = ""
-        datos_rutas = ""
         aventuras = get_adventures_with_chars()
         for clave in aventuras:
             datos += str(clave).ljust(3) + aventuras[clave]["Name"].ljust(40) + aventuras[clave]["Description"].ljust(57) + "\n"
@@ -97,29 +96,33 @@ while not salir:
         id_adventure = get_id_bystep_adventure()
         first_step = get_first_step_adventure(opcion_aventura)
         answers_by_step = get_answers_bystep_adventure()
-        print(id_adventure[first_step]["Description"])
 
-        for rutas in id_adventure[first_step]["answers_in_step"]:
-            if rutas in answers_by_step.keys():
-                datos_rutas += str(rutas) + ")" + answers_by_step[rutas]["Description"] + "\n"
-        print(datos_rutas)
+        while True:
+            datos_rutas = ""
+            if id_adventure[first_step]["Final_Step"]:
+                print(id_adventure[first_step]["Description"])
+                input("Enter to Continue")
+                break
 
-        opcion_eleccion = input("->Option: ")
-        while not opcion_eleccion.isdigit() or int(opcion_eleccion) not in answers_by_step.keys():
-            input("Invalid Option")
+            for rutas in id_adventure[first_step]["answers_in_step"]:
+                key = (rutas, first_step)
+                if key in answers_by_step:
+                    datos_rutas += str(rutas) + ")" + answers_by_step[key]["Description"] + "\n"
+
+            print(datos_rutas)
+
+            valid_answers = id_adventure[first_step]["answers_in_step"]
             opcion_eleccion = input("->Option: ")
-        opcion_eleccion = int(opcion_eleccion)
-        if answers_by_step[opcion_eleccion]["NextStep_Adventure"] == 0:
-            print(answers_by_step[opcion_eleccion]["Resolution_Answer"])
-            input("Enter to Continue")
-            break
-        else:
-            print(answers_by_step[opcion_eleccion]["Resolution_Answer"])
-            input("Enter to Continue")
+            while not opcion_eleccion.isdigit() or int(opcion_eleccion) not in valid_answers:
+                input("Invalid Option")
+                opcion_eleccion = input("->Option: ")
+            opcion_eleccion = int(opcion_eleccion)
 
+            respuesta = answers_by_step[(opcion_eleccion, first_step)]
 
-        play_adventure = False
-        menu_principal = True
+            print(respuesta["Resolution_Answer"])
+            first_step = respuesta["NextStep_Adventure"]
+
     while replay_adventure:
         print("replay adventure")
         replay_adventure = False
