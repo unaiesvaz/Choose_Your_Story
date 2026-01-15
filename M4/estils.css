@@ -538,3 +538,79 @@ padding-bottom:20%;}
     padding: 20px;
   }
 }
+/*Final Contacto*/
+/*Inico about*/
+.about-main {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.team-section h2,
+.video-section h2 {
+  text-align: center;
+  color: #0d47a1;
+  font-size: 2rem;
+  margin-bottom: 25px;
+}
+
+.team-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.team-list p {
+  background-color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 56.25%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .about-main {
+    padding: 25px 15px;
+    gap: 40px;
+  }
+
+  .team-section h2,
+  .video-section h2 {
+    font-size: 1.7rem;
+  }
+
+  .team-list {
+    gap: 12px;
+  }
+
+  .team-list p {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
