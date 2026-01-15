@@ -1,4 +1,6 @@
 from functions import *
+from db import obtener_conexion
+
 menu = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
 menu_seleccion_historia = "Adventures".center(100,"=") + "\n\n" + "Id".ljust(3) + "Adventure".ljust(40) + "Description".ljust(57) + "\n" + "*".center(100,"*") + "\n"
 
@@ -11,6 +13,8 @@ play_adventure = False
 replay_adventure = False
 informes = False
 
+if obtener_conexion() == None:
+    salir = True
 
 while not salir:
     while menu_principal:

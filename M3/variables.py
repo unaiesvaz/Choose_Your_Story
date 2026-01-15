@@ -1,17 +1,44 @@
-FIRST_STEP_BY_ADVENTURE = { # Este diccionario simula la BBDD hay que borrarlo, es para pruebas
-    1: 101,
-    2: 201
-}
+from db import obtener_conexion
+# def obtener_usuarios_dict(conexion):
+#     cursor = conexion.cursor()
+#     # Es importante pedir solo las columnas que necesitas
+#     cursor.execute("SELECT id_character, name FROM characters")
+#     resultados = cursor.fetchall()
+#     cursor.close()
+#
+#     # Transformamos la lista de tuplas [(1, 'Joselito'), ...]
+#     # en un diccionario {1: 'Joselito', ...}
+#     CHARACTERS = {id: nombre for (id, nombre) in resultados}
+#
+#     return CHARACTERS
+def ejecutar_query(conexion, sql, params=None):
+    """
+    Ejecuta cualquier consulta SELECT y devuelve una lista de diccionarios.
+    :param conexion: El objeto de conexión.
+    :param sql: La cadena SQL (ej: "SELECT * FROM tabla WHERE id = %s")
+    :param params: Una tupla con los valores para los %s (opcional).
+    """
+    cursor = conexion.cursor(dictionary=True)
+    try:
+        # Ejecutamos la query pasando los parámetros de forma segura
+        cursor.execute(sql, params or ())
+        resultados = cursor.fetchall()
+        return resultados
+    except Exception as e:
+        print(f"Error al ejecutar la query: {e}")
+        return []
+    finally:
+        cursor.close()
 
-USERS = {
-    "rafa": {"password": "1234", "idUser": 1},
-    "jordi": {"password": "abcd", "idUser": 2}
-}
+personajes = ejecutar_query(obtener_conexion(),"SELECT * FROM characters")
+users = ejecutar_query(obtener_conexion(),"SELECT name FROM adventures")
+print(personajes)
+print(users)
+# CHARACTERS = {
+#     1: "Joselito",
+#     2: "Juan el superheroe"
+# }
 
-CHARACTERS = {
-    1: "Joselito",
-    2: "Juan el superheroe"
-}
 
 ADVENTURES = {
     1: {

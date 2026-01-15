@@ -7,9 +7,9 @@ def get_adventures_with_chars():
 def get_id_bystep_adventure():
     from variables import id_by_steps
     return id_by_steps
-def get_first_step_adventure(id_adventure):
-    from variables import FIRST_STEP_BY_ADVENTURE
-    return FIRST_STEP_BY_ADVENTURE[id_adventure]
+#def get_first_step_adventure(id_adventure): REVISAR
+#    from variables import FIRST_STEP_BY_ADVENTURE
+#    return FIRST_STEP_BY_ADVENTURE[id_adventure]
 def get_characters():
     from variables import CHARACTERS
     return CHARACTERS
