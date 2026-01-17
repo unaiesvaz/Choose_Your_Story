@@ -7,9 +7,9 @@ def get_adventures_with_chars():
 def get_id_bystep_adventure():
     from variables import id_by_steps
     return id_by_steps
-#def get_first_step_adventure(id_adventure): REVISAR
-#    from variables import FIRST_STEP_BY_ADVENTURE
-#    return FIRST_STEP_BY_ADVENTURE[id_adventure]
+def get_first_step_adventure(id_adventure):
+    from variables import FIRST_STEP_BY_ADVENTURE
+    return FIRST_STEP_BY_ADVENTURE[id_adventure]
 def get_characters():
     from variables import CHARACTERS
     return CHARACTERS
@@ -21,21 +21,22 @@ def getUsers():
     from variables import USERS
     return USERS
 def getUserIds():
-    lista_users = list(getUsers())
-    lista_ids = []
-    for clave in lista_users:
-        lista_ids.append(getUsers()[clave]["idUser"])
-    return list(lista_users+lista_ids)
+    lista_users = []
+    lista_ids = list(getUsers().keys())
+    for clave in lista_ids:
+        lista_users.append(getUsers()[clave]["username"])
+    return [lista_users]+[lista_ids]
 
 # insertUser(id, user, password)
 # get_table(query)
 def userExists(user):
-    lista_users = list(getUsers())
-    if user not in lista_users:
+    lista = getUserIds()
+    if user not in lista[0]:
         return False
     else:
         return True
-def checkUserbdd(user, password):
+
+def checkUserbdd(user, password): # AQUI ERROR
     var = userExists(user)
     if not var:
         return 0

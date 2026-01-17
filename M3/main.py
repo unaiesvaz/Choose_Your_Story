@@ -15,6 +15,7 @@ informes = False
 
 if obtener_conexion() == None:
     salir = True
+    print("No se pudo conectar a la base de datos\n")
 
 while not salir:
     while menu_principal:
@@ -63,7 +64,9 @@ while not salir:
         login = False
         menu_principal = True
     while create_user:
-        print("create user")
+
+        username = input("Escribe tu nombre de usuario\n")
+
         create_user = False
         menu_principal = True
     while play_adventure:
@@ -107,6 +110,8 @@ while not salir:
                 print(id_adventure[first_step]["Description"])
                 input("Enter to Continue")
                 break
+            else:
+                print(id_adventure[first_step]["Description"])
 
             for rutas in id_adventure[first_step]["answers_in_step"]:
                 key = (rutas, first_step)

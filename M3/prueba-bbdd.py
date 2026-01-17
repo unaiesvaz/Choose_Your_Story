@@ -1,53 +1,65 @@
+import requests
 import mysql.connector
+import time
+import random
+import string
+import sys
 
-# CONFIGURACIÓN DEL PUENTE (Cámbialo por tus datos de Bore)
-HOST_BORE = "bore.pub"
-PUERTO_BORE = 38069  # <--- SUSTITUYE ESTO POR TU NÚMERO
 
-def ejecutar_test():
+def obtener_puerto():
+    # URL RAW de vuestro repositorio
+    url_base = "https://raw.githubusercontent.com/Choosestory/puerto/main/puerto.txt"
+    # Cache buster para evitar leer el puerto viejo
+    rand = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+    url = f"{url_base}?v={rand}"
+
     try:
-        # 1. Intentar conectar
-        print(f"Conectando a {HOST_BORE}:{PUERTO_BORE}...")
-        db = mysql.connector.connect(
-            host=HOST_BORE,
-            port=PUERTO_BORE,
-            user="ameragrajea",
-            password="1234",
-            database="minijuego_db"
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
+        return int(r.text.strip())
+    except Exception as e:
+        print(f"❌ Error al obtener el puerto de GitHub: {e}")
+        return None
+
+
+def conectar_db():
+    print("=== COMPROBADOR DE CONEXIÓN PROYECTO ===")
+
+    puerto = obtener_puerto()
+    if not puerto:
+        return
+
+    print(f"📡 Intentando conectar al puerto: {puerto}...")
+
+    try:
+        # Configuración de vuestra base de datos
+        conexion = mysql.connector.connect(
+            host="bore.pub",
+            port=puerto,
+            user="aitor_admin",  # Cambia esto si usas otro
+            password="aitor",  # Poned vuestra contraseña real aquí
+            connect_timeout=10
         )
-        cursor = db.cursor()
-        print("✅ Conexión establecida con éxito.\n")
 
-        # 2. PROBAR LECTURA: Ver personajes
-        print("--- Leyendo personajes desde el servidor ---")
-        cursor.execute("SELECT nombre, descripcion FROM personajes")
-        personajes = cursor.fetchall()
-        for p in personajes:
-            print(f"• {p[0]}: {p[1]}")
+        if conexion.is_connected():
+            print("\n" + "=" * 40)
+            print("✅ ¡ÉXITO! Conexión establecida correctamente.")
+            print(f"🖥️ Servidor: {conexion.server_info}")
+            print("=" * 40)
+            conexion.close()
 
-        # 3. PROBAR ESCRITURA: Registrar una partida de prueba
-        print("\n--- Guardando una partida de prueba ---")
-        nombre_test = "Tester_Manual"
-        id_guerrero = 1
-        query_insert = "INSERT INTO historial_partidas (jugador, personaje_id) VALUES (%s, %s)"
-        cursor.execute(query_insert, (nombre_test, id_guerrero))
-        db.commit() # ¡Importante! Sin esto no se guardan los cambios
-        print("✅ Partida guardada en el servidor.")
+    except Exception as e:
+        print("\n" + "!" * 40)
+        print(f"❌ ERROR DE CONEXIÓN: {e}")
+        print("Sugerencia: Verifica que el túnel de Bore esté abierto en el servidor.")
+        print("!" * 40)
 
-        # 4. VERIFICAR: Leer el historial
-        print("\n--- Verificando historial actualizado ---")
-        cursor.execute("SELECT jugador, fecha FROM historial_partidas")
-        for h in cursor.fetchall():
-            print(f"Jugador: {h[0]} | Fecha: {h[1]}")
-
-        # Cerrar conexión
-        cursor.close()
-        db.close()
-        print("\n--- Prueba finalizada correctamente ---")
-
-    except mysql.connector.Error as err:
-        print(f"❌ Error: {err}")
 
 if __name__ == "__main__":
-    ejecutar_test()
-    input("\nPresiona Enter para cerrar...")
+    conectar_db()
+
+    # ESTA ES LA PARTE CLAVE:
+    # Evita que la ventana se cierre sola.
+    print("\n" + "-" * 40)
+    input("Presiona ENTER para cerrar esta ventana...")
+    sys.exit()
