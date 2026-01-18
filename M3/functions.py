@@ -1,3 +1,7 @@
+from M3.variables import ejecutar_query_insert
+from variables import ejecutar_query
+from db import obtener_conexion
+
 def get_answers_bystep_adventure():
     from variables import idAnswers_ByStep_Adventure
     return idAnswers_ByStep_Adventure
@@ -27,7 +31,10 @@ def getUserIds():
         lista_users.append(getUsers()[clave]["username"])
     return [lista_users]+[lista_ids]
 
-# insertUser(id, user, password)
+def insertUser(username, password):
+    query = "INSERT INTO users (username, password, created_at) VALUES (%s, %s, NOW())"
+    ejecutar_query_insert(obtener_conexion(),query,(username, password))
+
 # get_table(query)
 def userExists(user):
     lista = getUserIds()
@@ -36,11 +43,19 @@ def userExists(user):
     else:
         return True
 
-def checkUserbdd(user, password): # AQUI ERROR
+def checkUserbdd(user, password):
     var = userExists(user)
     if not var:
         return 0
-    if password != getUsers()[user]["password"]:
+
+    USERS = getUsers()
+    id_user = 0
+    for clave in USERS:
+        if USERS[clave]["username"] == user:
+            id_user = clave
+            break
+
+    if password != getUsers()[id_user]["password"]:
         return -1
     return 1
 
@@ -57,7 +72,14 @@ def getHeader(text):
 # getTableFromDict(tuple_of_keys, weigth_of_columns, dict_of_data)
 # getOpt(textOpts="", inputOptText="", rangeList=[], dictionary={}, exceptions=[])
 # getFormatedTable(queryTable, title="")
-# checkPassword(password)
+def checkPassword(password): # Falta la comprobacion de minimo una mayus y una minus
+    if len(password) < 8 or len(password) > 12:
+        print("Length of password must be between 8 and 12 characters\n")
+        return False
+    if password.find(" ") != -1:
+        print("Password cant have spaces\n")
+        return False
+    return True
 #def checkUser(user):
 # replay(choices)
 

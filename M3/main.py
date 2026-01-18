@@ -58,14 +58,21 @@ while not salir:
             menu_principal = True
 
         input("Enter to Continue")
-        username = ""
-        password = ""
-        print(getUserIds())
         login = False
         menu_principal = True
     while create_user:
-
-        username = input("Escribe tu nombre de usuario\n")
+        username = input("Username:\n")
+        lista = getUserIds()
+        while username in lista[0]:
+            print("Existing User")
+            username = input("Username:\n")
+        val = False
+        password = ""
+        while not val:
+            password = input("Password:\n")
+            val = checkPassword(password)
+        print("Correct password")
+        insertUser(username,password)
 
         create_user = False
         menu_principal = True
@@ -78,11 +85,12 @@ while not salir:
             datos += str(clave).ljust(3) + aventuras[clave]["Name"].ljust(40) + aventuras[clave]["Description"].ljust(57) + "\n"
         print(menu_seleccion_historia+datos)
 
-        opcion_aventura = input("->Option: ")
+        opcion_aventura = input("->Option: (0 to go back)\n")
         while not opcion_aventura.isdigit() or int(opcion_aventura) not in aventuras.keys():
             input("Invalid Option")
-            opcion_aventura = input("->Option: ")
+            opcion_aventura = input("->Option: (0 to go back)\n")
         opcion_aventura = int(opcion_aventura)
+
         datos_aventura = "{}{}\n\n{}{}\n\n".format("Adventure:".ljust(15),aventuras[opcion_aventura]["Name"].ljust(65),"Description:".ljust(15),aventuras[opcion_aventura]["Description"].ljust(65))
         print(getHeader(aventuras[opcion_aventura]["Name"])+datos_aventura)
         input("Enter to Continue")

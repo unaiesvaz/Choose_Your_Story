@@ -1,12 +1,7 @@
 from db import obtener_conexion
 conexion = obtener_conexion()
+
 def ejecutar_query(conexion, sql, params=None):
-    """
-    Ejecuta cualquier consulta SELECT y devuelve una lista de diccionarios.
-    :param conexion: El objeto de conexión.
-    :param sql: La cadena SQL (ej: "SELECT * FROM tabla WHERE id = %s")
-    :param params: Una tupla con los valores para los %s (opcional).
-    """
     cursor = conexion.cursor(dictionary=True)
     try:
         # Ejecutamos la query pasando los parámetros de forma segura
@@ -15,6 +10,25 @@ def ejecutar_query(conexion, sql, params=None):
         return resultados
     except Exception as e:
         print(f"Error al ejecutar la query: {e}")
+        return []
+    finally:
+        cursor.close()
+
+def ejecutar_query_insert(conexion, sql, params=None):
+    cursor = conexion.cursor(dictionary=True)
+    try:
+        cursor.execute(sql, params or ())
+
+        conexion.commit()
+
+        # Solo los SELECT devuelven resultados
+        if cursor.description:
+            return cursor.fetchall()
+        else:
+            return []
+    except Exception as e:
+        print(f"Error al ejecutar la query: {e}")
+        conexion.rollback()
         return []
     finally:
         cursor.close()

@@ -3,7 +3,6 @@ import mysql.connector
 import random
 import string
 
-
 def obtener_conexion():
     try:
         # Cache busting genera 5 letrasnúmeros aleatorios
