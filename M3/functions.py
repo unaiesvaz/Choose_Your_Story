@@ -66,9 +66,14 @@ def getHeader(text):
     header = "*".center(80,"*") + "\n" + text.center(80,"=") + "\n" + "*".center(80,"*") + "\n"
     return header
 # getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0)
-# getFormatedAdventures(adventures)
+def getFormatedAdventures(adventures):
+    adventures = get_adventures_with_chars()
+    datos = ""
+    cabecera = "Adventures".center(80,"=") + "\n\n"
+    for clave in adventures:
+        datos += clave # POR AQUI
 # getFormatedAnswers(idAnswer, text, lenLine, leftMargin)
-# getHeadeForTableFromTuples(t_name_columns, t_size_columns, title="")
+#def getHeadeForTableFromTuples(t_name_columns, t_size_columns,title)
 # getTableFromDict(tuple_of_keys, weigth_of_columns, dict_of_data)
 # getOpt(textOpts="", inputOptText="", rangeList=[], dictionary={}, exceptions=[])
 # getFormatedTable(queryTable, title="")

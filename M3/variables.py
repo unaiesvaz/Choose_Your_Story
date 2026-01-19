@@ -4,34 +4,55 @@ conexion = obtener_conexion()
 def ejecutar_query(conexion, sql, params=None):
     cursor = conexion.cursor(dictionary=True)
     try:
-        # Ejecutamos la query pasando los parámetros de forma segura
         cursor.execute(sql, params or ())
-        resultados = cursor.fetchall()
-        return resultados
+        return cursor.fetchall()
     except Exception as e:
-        print(f"Error al ejecutar la query: {e}")
+        print(f"Error al ejecutar SELECT: {e}")
         return []
     finally:
         cursor.close()
 
+# def ejecutar_query(conexion, sql, params=None):
+#     cursor = conexion.cursor(dictionary=True)
+#     try:
+#         # Ejecutamos la query pasando los parámetros de forma segura
+#         cursor.execute(sql, params or ())
+#         resultados = cursor.fetchall()
+#         return resultados
+#     except Exception as e:
+#         print(f"Error al ejecutar la query: {e}")
+#         return []
+#     finally:
+#         cursor.close()
 def ejecutar_query_insert(conexion, sql, params=None):
-    cursor = conexion.cursor(dictionary=True)
+    cursor = conexion.cursor()
     try:
         cursor.execute(sql, params or ())
-
         conexion.commit()
-
-        # Solo los SELECT devuelven resultados
-        if cursor.description:
-            return cursor.fetchall()
-        else:
-            return []
     except Exception as e:
-        print(f"Error al ejecutar la query: {e}")
+        print(f"Error al ejecutar modificación: {e}")
         conexion.rollback()
-        return []
     finally:
         cursor.close()
+
+# def ejecutar_query_insert(conexion, sql, params=None):
+#     cursor = conexion.cursor(dictionary=True)
+#     try:
+#         cursor.execute(sql, params or ())
+#
+#         conexion.commit()
+#
+#         # Solo los SELECT devuelven resultados
+#         if cursor.description:
+#             return cursor.fetchall()
+#         else:
+#             return []
+#     except Exception as e:
+#         print(f"Error al ejecutar la query: {e}")
+#         conexion.rollback()
+#         return []
+#     finally:
+#         cursor.close()
 
 
 FIRST_STEP_BY_ADVENTURE = {
