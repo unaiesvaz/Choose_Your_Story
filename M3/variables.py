@@ -100,19 +100,18 @@ for fila in resultado:
 #     }
 # }
 resultado = ejecutar_query(obtener_conexion(),
-"SELECT adventures.id_adventure, adventures.name, adventures.description, characters.id_character "
-    "FROM adventures, characters") # Esto nos devuelve la consulta de la query tal cual
+"SELECT a.id_adventure, a.name, a.description, ac.id_character FROM adventures a JOIN adventure_characters ac ON a.id_adventure = ac.id_adventure ORDER BY a.id_adventure ") # Esto nos devuelve la consulta de la query tal cual
 
 ADVENTURES = {}
 
 for fila in resultado: # Esta parte es para cambiar el formato de como lo devuelve la base de datos a un formato adecuado para nuestro codigo
     id_adv = fila["id_adventure"]
-
-    ADVENTURES[id_adv] = {
-        "Name": fila["name"],
-        "Description": fila["description"],
-        "characters": []
-    }
+    if id_adv not in ADVENTURES:
+        ADVENTURES[id_adv] = {
+            "Name": fila["name"],
+            "Description": fila["description"],
+            "characters": []
+        }
     ADVENTURES[id_adv]["characters"].append(fila["id_character"])
 
 

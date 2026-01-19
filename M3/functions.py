@@ -61,31 +61,61 @@ def checkUserbdd(user, password):
 
 # setIdGame()
 # insertCurrentChoice(idGame, actual_id_step, id_answer)
-# formatText(text, lenLine, split)
+#def formatText(text, lenLine, split):
+
 def getHeader(text):
     header = "*".center(80,"*") + "\n" + text.center(80,"=") + "\n" + "*".center(80,"*") + "\n"
     return header
 # getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0)
 def getFormatedAdventures(adventures):
-    adventures = get_adventures_with_chars()
     datos = ""
-    cabecera = "Adventures".center(80,"=") + "\n\n"
+    cabecera = ("Adventures".center(90,"=") + "\n\n" +
+                "{:<10}{:<30}{:<50}\n".format("Id","Adventure","Description") +
+                "*".center(90,"*") + "\n\n")
     for clave in adventures:
-        datos += clave # POR AQUI
-# getFormatedAnswers(idAnswer, text, lenLine, leftMargin)
+        datos += "{:<10}{:<30}{:<50}".format(clave,adventures[clave]["Name"],adventures[clave]["Description"])
+    return cabecera+datos
+#def getFormatedAnswers(idAnswer, text, lenLine, leftMargin):
+
 #def getHeadeForTableFromTuples(t_name_columns, t_size_columns,title)
 # getTableFromDict(tuple_of_keys, weigth_of_columns, dict_of_data)
-# getOpt(textOpts="", inputOptText="", rangeList=[], dictionary={}, exceptions=[])
+def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions):
+    # Mostrar texto del menú
+    if textOpts != "":
+        print(textOpts)
+
+    while True:
+        opcion = input(inputOptText)
+
+        if opcion in exceptions:
+            return opcion
+
+        if opcion.isdigit():
+            opcion_int = int(opcion)
+            if opcion_int in dictionary.keys():
+                return opcion_int
+
+        if opcion.isdigit():
+            opcion_int = int(opcion)
+            if opcion_int in rangeList:
+                return opcion_int
+
+        print("Invalid option")
+
 # getFormatedTable(queryTable, title="")
 def checkPassword(password): # Falta la comprobacion de minimo una mayus y una minus
-    if len(password) < 8 or len(password) > 12:
+    if len(password) <= 8 or len(password) >= 12:
         print("Length of password must be between 8 and 12 characters\n")
         return False
     if password.find(" ") != -1:
         print("Password cant have spaces\n")
         return False
     return True
-#def checkUser(user):
+def checkUser(user):
+    if len(user) <= 6 or len(user) >= 10:
+        print("Length of username must be between 6 and 10 characters\n")
+        return False
+    return True
 # replay(choices)
 
 

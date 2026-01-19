@@ -1,8 +1,9 @@
 from functions import *
 from db import obtener_conexion
 
-menu = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
-menu_seleccion_historia = "Adventures".center(100,"=") + "\n\n" + "Id".ljust(3) + "Adventure".ljust(40) + "Description".ljust(57) + "\n" + "*".center(100,"*") + "\n"
+menu_sin_logear = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
+menu_logeado = "1. Logout\n2. Play\n3. Replay Adventure\n4. Reports\n5. Exit"
+
 
 salir = False
 menu_principal = True
@@ -12,6 +13,7 @@ create_user = False
 play_adventure = False
 replay_adventure = False
 informes = False
+correct_login = False
 
 if obtener_conexion() == None:
     salir = True
@@ -19,12 +21,8 @@ if obtener_conexion() == None:
 
 while not salir:
     while menu_principal:
-        print(menu)
-        opcion = input("->Option: ")
-        if not opcion.isdigit() or not (int(opcion) in range(1, 7)):
-            input("Invalid Option")
-        else:
-            opcion = int(opcion)
+        if not correct_login:
+            opcion = getOpt(menu_sin_logear, "->Option: ", [1, 2, 3, 4, 5, 6],{},{})
             if opcion == 1:
                 login = True
                 menu_principal = False
@@ -43,7 +41,24 @@ while not salir:
             elif opcion == 6:
                 salir = True
                 menu_principal = False
-
+        else:
+            opcion = getOpt(menu_logeado, "->Option: ", [1, 2, 3, 4, 5], {}, {})
+            if opcion == 1:
+                correct_login = False
+                print("Has cerrado sesion")
+                input("Enter to Continue")
+            elif opcion == 2:
+                menu_principal = False
+                play_adventure = True
+            elif opcion == 3:
+                replay_adventure = True
+                menu_principal = False
+            elif opcion == 4:
+                informes = True
+                menu_principal = False
+            elif opcion == 5:
+                salir = True
+                menu_principal = False
     while login:
         username = input("Escribe tu nombre de usuario\n")
         password = input("Escribe la contraseña\n")
@@ -58,13 +73,14 @@ while not salir:
             menu_principal = True
 
         input("Enter to Continue")
+        correct_login = True
         login = False
         menu_principal = True
     while create_user:
         username = input("Username:\n")
         lista = getUserIds()
-        while username in lista[0]:
-            print("Existing User")
+        while username in lista[0] or not checkUser(username):
+            print("Invalid User")
             username = input("Username:\n")
         val = False
         password = ""
@@ -81,32 +97,26 @@ while not salir:
         datos_aventura = ""
         datos_characters = ""
         aventuras = get_adventures_with_chars()
-        for clave in aventuras:
-            datos += str(clave).ljust(3) + aventuras[clave]["Name"].ljust(40) + aventuras[clave]["Description"].ljust(57) + "\n"
-        print(menu_seleccion_historia+datos)
 
-        opcion_aventura = input("->Option: (0 to go back)\n")
-        while not opcion_aventura.isdigit() or int(opcion_aventura) not in aventuras.keys():
-            input("Invalid Option")
-            opcion_aventura = input("->Option: (0 to go back)\n")
+        opcion_aventura = getOpt(getFormatedAdventures(aventuras), "->Option: (0 to go back)\n", aventuras.keys(),aventuras,["0"])
         opcion_aventura = int(opcion_aventura)
+        if opcion_aventura == 0:
+            play_adventure = False
+            menu_principal = True
+            break
 
         datos_aventura = "{}{}\n\n{}{}\n\n".format("Adventure:".ljust(15),aventuras[opcion_aventura]["Name"].ljust(65),"Description:".ljust(15),aventuras[opcion_aventura]["Description"].ljust(65))
         print(getHeader(aventuras[opcion_aventura]["Name"])+datos_aventura)
         input("Enter to Continue")
 
         characters = get_characters()
-        for clave in characters:
+        for clave in characters.keys():
             if clave in aventuras[opcion_aventura]["characters"]:
                 datos_characters += str(clave) + ")" + characters[clave] + "\n"
 
-        print("Characters".center(30, "=") + "\n" + datos_characters)
-        opcion_char = input("->Option: ")
-        while not opcion_char.isdigit() or int(opcion_char) not in characters.keys():
-            print("Invalid Option\n" + "Characters".center(30, "=") + "\n" + datos_characters)
-            opcion_char = input("->Option: ")
-        opcion_char = int(opcion_char)
+        char_datos = "Characters".center(30, "=") + "\n" + datos_characters
 
+        opcion_char = getOpt(char_datos, "->Option: ", aventuras[opcion_aventura]["characters"],characters,[])
 
         id_adventure = get_id_bystep_adventure()
         first_step = get_first_step_adventure(opcion_aventura)
@@ -114,6 +124,7 @@ while not salir:
 
         while True:
             datos_rutas = ""
+            cabecera_historia = getHeader(aventuras[opcion_aventura]["Name"])
             if id_adventure[first_step]["Final_Step"]:
                 print(id_adventure[first_step]["Description"])
                 input("Enter to Continue")
@@ -126,14 +137,8 @@ while not salir:
                 if key in answers_by_step:
                     datos_rutas += str(rutas) + ")" + answers_by_step[key]["Description"] + "\n"
 
-            print(datos_rutas)
-
             valid_answers = id_adventure[first_step]["answers_in_step"]
-            opcion_eleccion = input("->Option: ")
-            while not opcion_eleccion.isdigit() or int(opcion_eleccion) not in valid_answers:
-                input("Invalid Option")
-                opcion_eleccion = input("->Option: ")
-            opcion_eleccion = int(opcion_eleccion)
+            opcion_eleccion = getOpt(datos_rutas, "->Option: ", id_adventure[first_step]["answers_in_step"],id_adventure,[])
 
             respuesta = answers_by_step[(opcion_eleccion, first_step)]
 
