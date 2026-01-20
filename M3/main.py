@@ -1,9 +1,9 @@
 from functions import *
 from db import obtener_conexion
 
-menu_sin_logear = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
-menu_logeado = "1. Logout\n2. Play\n3. Replay Adventure\n4. Reports\n5. Exit"
-cabecera_partidas = "=".center(80,"=") + "\n" + "Id".ljust(10) +"Username".ljust(15) + "Name".ljust(30) + "CharacterName".ljust(15) +"date".ljust(20) + "\n" + "*".center(80,"*") + "\n\n"
+menu_logeado = "1. Logout\n2. Play\n3. Replay Adventure\n4. Reports\n5. Exit\n"
+menu_sin_logear = "1. Login\n2. Create User\n3. Replay Adventure\n4. Reports\n5. Exit\n"
+cabecera_partidas = "=".center(80,"=") + "\n" + "Id".ljust(10) +"Username".ljust(15) + "Name".ljust(30) + "CharacterName".ljust(25) +"date".ljust(20) + "\n" + "*".center(80,"*") + "\n\n"
 
 
 salir = False
@@ -16,6 +16,8 @@ replay_adventure = False
 informes = False
 correct_login = False
 
+user_id = 0
+
 if obtener_conexion() == None:
     salir = True
     print("No se pudo conectar a la base de datos\n")
@@ -23,7 +25,7 @@ if obtener_conexion() == None:
 while not salir:
     while menu_principal:
         if not correct_login:
-            opcion = getOpt(menu_sin_logear, "->Option: ", [1, 2, 3, 4, 5, 6],{},{})
+            opcion = getOpt(menu_sin_logear, "->Option: ", [1, 2, 3, 4, 5],{},{})
             if opcion == 1:
                 login = True
                 menu_principal = False
@@ -31,15 +33,12 @@ while not salir:
                 create_user = True
                 menu_principal = False
             elif opcion == 3:
-                play_adventure = True
-                menu_principal = False
-            elif opcion == 4:
                 replay_adventure = True
                 menu_principal = False
-            elif opcion == 5:
+            elif opcion == 4:
                 informes = True
                 menu_principal = False
-            elif opcion == 6:
+            elif opcion == 5:
                 salir = True
                 menu_principal = False
         else:
@@ -70,6 +69,10 @@ while not salir:
             print("Incorrect Password")
         else:
             print("Correct User")
+            lista = getUserIds()
+            for i in range(len(lista[0])):
+                if lista[0][i] == username:
+                    user_id = lista[1][i]
             correct_login = True
             login = False
             menu_principal = True
@@ -131,7 +134,7 @@ while not salir:
                 print(id_adventure[first_step]["Description"])
                 input("Enter to Continue")
                 # AQUI SE GUARDARA LA PARTIDA
-                id_user = 1 # Hay un campo para el id user, guardar al iniciar sesion y a tirar millas
+                id_user = user_id
                 id_char = opcion_char
                 id_adv = opcion_aventura
                 insertCurrentGame(id_user,id_char,id_adv,lista_steps)
@@ -159,14 +162,40 @@ while not salir:
     while replay_adventure:
         datos_partidas = ""
         partidas = getReplayAdventures()
-        #cabecera_partidas = "=".center(80,"=") + "\n" + "Id".ljust(10) +"Username".ljust(15) + "Name".ljust(30) + "CharacterName".ljust(15) +"date".ljust(20) + "\n" + "*".center(80,"*") + "\n\n"
-
         for clave in partidas.keys():
-            datos_partidas += "{:<10}{:<15}{:<30}{:<15}{:<20}\n".format(clave,partidas[clave]["idUser"],partidas[clave]["idAdventure"],partidas[clave]["idCharacter"],partidas[clave]["date"])
+            datos_partidas += "{:<10}{:<15}{:<30}{:<25}{:<20}\n".format(clave,getUsers()[partidas[clave]["idUser"]]["username"],
+                                                                        get_adventures_with_chars()[partidas[clave]["idAdventure"]]["Name"],
+                                                                        get_characters()[partidas[clave]["idCharacter"]],
+                                                                        str(partidas[clave]["date"]))
 
-        print(cabecera_partidas+datos_partidas)
+        opcion_replay = getOpt(cabecera_partidas+datos_partidas, "->Option: ", partidas.keys(),partidas,[])
+
+        choices = partidas[opcion_replay]["steps"]
+        id_adventure = partidas[opcion_replay]["idAdventure"]
+        id_by_steps = get_id_bystep_adventure()
+        answers_by_step = get_answers_bystep_adventure()
+        current_step = get_first_step_adventure(id_adventure)
+
+        print(getHeader(get_adventures_with_chars()[id_adventure]["Name"]))
+        for choice in choices:
+
+            print(id_by_steps[current_step]["Description"])
+
+            for opt in id_by_steps[current_step]["answers_in_step"]:
+                texto = answers_by_step[(opt, current_step)]["Description"]
+                print("{}) {}".format(opt,texto))
+
+            input("Enter to continue")
+            print("Option {} selected".format(choice))
+            print(answers_by_step[(choice, current_step)]["Resolution_Answer"])
+
+            input("Enter to continue")
+
+            current_step = answers_by_step[(choice, current_step)]["NextStep_Adventure"]
+
         replay_adventure = False
         menu_principal = True
+
     while informes:
         print("informes")
         informes = False
