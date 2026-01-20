@@ -122,7 +122,6 @@ while not salir:
         id_adventure = get_id_bystep_adventure()
         first_step = get_first_step_adventure(opcion_aventura)
         answers_by_step = get_answers_bystep_adventure()
-
         while True:
             datos_rutas = ""
             cabecera_historia = getHeader(aventuras[opcion_aventura]["Name"])
