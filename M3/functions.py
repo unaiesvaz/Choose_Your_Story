@@ -107,8 +107,6 @@ def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions):
         if opcion.isdigit():
             opcion_int = int(opcion)
             if opcion_int in rangeList:
-                print(rangeList)
-                print(opcion_int)
                 return opcion_int
 
         print("Invalid option")

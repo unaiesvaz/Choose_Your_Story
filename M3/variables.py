@@ -70,6 +70,7 @@ for fila in resultado:
     fecha = fila["created_at"]
 
     USERS[id_user] = {
+        "id_user": id_user,
         "username": username,
         "password": password,
         "date": str(fecha)

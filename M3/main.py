@@ -131,8 +131,7 @@ while not salir:
                 print(id_adventure[first_step]["Description"])
                 input("Enter to Continue")
                 # AQUI SE GUARDARA LA PARTIDA
-
-                id_user = 1
+                id_user = 1 # Hay un campo para el id user, guardar al iniciar sesion y a tirar millas
                 id_char = opcion_char
                 id_adv = opcion_aventura
                 insertCurrentGame(id_user,id_char,id_adv,lista_steps)
