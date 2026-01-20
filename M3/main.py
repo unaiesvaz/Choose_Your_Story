@@ -97,6 +97,7 @@ while not salir:
         datos_aventura = ""
         datos_characters = ""
         aventuras = get_adventures_with_chars()
+        print(aventuras)
 
         opcion_aventura = getOpt(getFormatedAdventures(aventuras), "->Option: (0 to go back)\n", aventuras.keys(),aventuras,["0"])
         opcion_aventura = int(opcion_aventura)
