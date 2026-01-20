@@ -3,6 +3,7 @@ from db import obtener_conexion
 
 menu_sin_logear = "1. Login\n2. Crear usuario\n3. Jugar aventura\n4. Repetir partida\n5. Informes\n6. Salir"
 menu_logeado = "1. Logout\n2. Play\n3. Replay Adventure\n4. Reports\n5. Exit"
+cabecera_partidas = "=".center(80,"=") + "\n" + "Id".ljust(10) +"Username".ljust(15) + "Name".ljust(30) + "CharacterName".ljust(15) +"date".ljust(20) + "\n" + "*".center(80,"*") + "\n\n"
 
 
 salir = False
@@ -69,11 +70,11 @@ while not salir:
             print("Incorrect Password")
         else:
             print("Correct User")
+            correct_login = True
             login = False
             menu_principal = True
 
         input("Enter to Continue")
-        correct_login = True
         login = False
         menu_principal = True
     while create_user:
@@ -97,7 +98,6 @@ while not salir:
         datos_aventura = ""
         datos_characters = ""
         aventuras = get_adventures_with_chars()
-        print(aventuras)
 
         opcion_aventura = getOpt(getFormatedAdventures(aventuras), "->Option: (0 to go back)\n", aventuras.keys(),aventuras,["0"])
         opcion_aventura = int(opcion_aventura)
@@ -122,12 +122,20 @@ while not salir:
         id_adventure = get_id_bystep_adventure()
         first_step = get_first_step_adventure(opcion_aventura)
         answers_by_step = get_answers_bystep_adventure()
+
+        lista_steps = []
         while True:
             datos_rutas = ""
             cabecera_historia = getHeader(aventuras[opcion_aventura]["Name"])
             if id_adventure[first_step]["Final_Step"]:
                 print(id_adventure[first_step]["Description"])
                 input("Enter to Continue")
+                # AQUI SE GUARDARA LA PARTIDA
+
+                id_user = 1
+                id_char = opcion_char
+                id_adv = opcion_aventura
+                insertCurrentGame(id_user,id_char,id_adv,lista_steps)
                 break
             else:
                 print(id_adventure[first_step]["Description"])
@@ -140,13 +148,24 @@ while not salir:
             valid_answers = id_adventure[first_step]["answers_in_step"]
             opcion_eleccion = getOpt(datos_rutas, "->Option: ", id_adventure[first_step]["answers_in_step"],id_adventure,[])
 
+            ejecutar_query_insert(obtener_conexion(),"UPDATE step_answers SET times_reached = times_reached + 1 WHERE id_answer = %s",(opcion_eleccion,))
+
+            lista_steps.append(opcion_eleccion)
+
             respuesta = answers_by_step[(opcion_eleccion, first_step)]
 
             print(respuesta["Resolution_Answer"])
             first_step = respuesta["NextStep_Adventure"]
 
     while replay_adventure:
-        print("replay adventure")
+        datos_partidas = ""
+        partidas = getReplayAdventures()
+        #cabecera_partidas = "=".center(80,"=") + "\n" + "Id".ljust(10) +"Username".ljust(15) + "Name".ljust(30) + "CharacterName".ljust(15) +"date".ljust(20) + "\n" + "*".center(80,"*") + "\n\n"
+
+        for clave in partidas.keys():
+            datos_partidas += "{:<10}{:<15}{:<30}{:<15}{:<20}\n".format(clave,partidas[clave]["idUser"],partidas[clave]["idAdventure"],partidas[clave]["idCharacter"],partidas[clave]["date"])
+
+        print(cabecera_partidas+datos_partidas)
         replay_adventure = False
         menu_principal = True
     while informes:

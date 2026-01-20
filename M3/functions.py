@@ -1,3 +1,4 @@
+import json
 from M3.variables import ejecutar_query_insert
 from variables import ejecutar_query
 from db import obtener_conexion
@@ -17,10 +18,18 @@ def get_first_step_adventure(id_adventure):
 def get_characters():
     from variables import CHARACTERS
     return CHARACTERS
-# getReplayAdventures()
+def getReplayAdventures():
+    from variables import GAMES
+    return GAMES
 # getChoices()
 # getIdGames()
-# insertCurrentGame(idGame,idUser,isChar,idAdventure)
+#
+#def insertCurrentGame(idGame,idUser,idChar,idAdventure,stepsList):
+def insertCurrentGame(idUser, idChar, idAdventure, stepsList):
+    steps_json= json.dumps(stepsList)
+    query = "INSERT INTO games (id_user, id_character, id_adventure, current_step, game_date) VALUES (%s, %s, %s, %s, NOW())"
+    ejecutar_query_insert(obtener_conexion(),query,(idUser,idChar,idAdventure,steps_json))
+
 def getUsers():
     from variables import USERS
     return USERS
@@ -98,6 +107,8 @@ def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions):
         if opcion.isdigit():
             opcion_int = int(opcion)
             if opcion_int in rangeList:
+                print(rangeList)
+                print(opcion_int)
                 return opcion_int
 
         print("Invalid option")

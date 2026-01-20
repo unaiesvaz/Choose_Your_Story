@@ -179,6 +179,24 @@ for fila in resultado:
         "Resolution_Answer": fila["resolution_text"],
         "NextStep_Adventure": fila["id_next_step"]
     }
+
+resultado = ejecutar_query(obtener_conexion(),"SELECT id_game,id_user,id_character,id_adventure,current_step,game_date FROM games ORDER BY id_game")
+GAMES = {}
+
+for fila in resultado:
+    id_game = fila["id_game"]
+
+    steps = fila["current_step"].strip("[]").split(",")
+    steps = [int(x) for x in steps]
+
+    GAMES[id_game] = {
+        "idUser": fila["id_user"],
+        "idAdventure": fila["id_adventure"],
+        "idCharacter": fila["id_character"],
+        "steps": steps,
+        "date": fila["game_date"]
+    }
+
 # idAnswers_ByStep_Adventure = {
 #     (201,101): {
 #         "Description": "Acercarse al niño para ayudarlo.",
