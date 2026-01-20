@@ -203,20 +203,16 @@ body {
   overflow: hidden;
 }
 
-<<<<<<< Updated upstream
 .interactive-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
 }
 
 /* === HOW TO PLAY === */
-=======
->>>>>>> Stashed changes
 .how-to-play {
   background-color: #fff;
   padding: 60px 20px;
   text-align: center;
-  margin-top: 150px;
 }
 
 .how-to-play h2 {
@@ -497,13 +493,11 @@ body {
 
 .video-container {
   position: relative;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
-<<<<<<< Updated upstream
   padding-top: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden;
-=======
-  padding-top: 56%;
->>>>>>> Stashed changes
 }
 
 .video-container video {
