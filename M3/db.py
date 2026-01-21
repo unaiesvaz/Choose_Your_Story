@@ -3,7 +3,7 @@ import mysql.connector
 import random
 import string
 
-def obtener_puerto():
+def obtener_puerto(): # Esta funcion la usamos para conectarnos al puerto del server y asi poder sacar la informacion de la bbdd
     url = "https://raw.githubusercontent.com/Choosestory/puerto/main/puerto.txt"
     return int(requests.get(url, timeout=2).text.strip())
 

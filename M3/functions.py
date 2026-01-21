@@ -1,8 +1,8 @@
 import json
 from M3.variables import ejecutar_query_insert
-from variables import ejecutar_query
 from db import obtener_conexion
 
+#######FUNCIONES PARA DEVOLVER DICCIONARIOS#######
 def get_answers_bystep_adventure():
     from variables import idAnswers_ByStep_Adventure
     return idAnswers_ByStep_Adventure
@@ -21,36 +21,39 @@ def get_characters():
 def getReplayAdventures():
     from variables import GAMES
     return GAMES
+def getUsers():
+    from variables import USERS
+    return USERS
+#######FIN DE FUNCIONES PARA DEVOLVER DICCIONARIOS#######
+
 # getChoices()
 # getIdGames()
-def insertCurrentGame(idUser, idChar, idAdventure, stepsList):
+
+def insertCurrentGame(idUser, idChar, idAdventure, stepsList): # Esta funcion nos sirve para insertar una partida en la base de datos para mas tarde, poder volver a jugarla (opcion de replay adventure)
     steps_json= json.dumps(stepsList)
     query = "INSERT INTO games (id_user, id_character, id_adventure, current_step, game_date) VALUES (%s, %s, %s, %s, NOW())"
     ejecutar_query_insert(obtener_conexion(),query,(idUser,idChar,idAdventure,steps_json))
 
-def getUsers():
-    from variables import USERS
-    return USERS
-def getUserIds():
+def getUserIds(): # Esta funcion nos da una lista compuesta con los usernames y los ids de los usuarios
     lista_users = []
     lista_ids = list(getUsers().keys())
     for clave in lista_ids:
         lista_users.append(getUsers()[clave]["username"])
     return [lista_users]+[lista_ids]
 
-def insertUser(username, password):
+def insertUser(username, password): # Esta funcion nos sirve para que, al crear un usuario, se guarde en la base de datos
     query = "INSERT INTO users (username, password, created_at) VALUES (%s, %s, NOW())"
     ejecutar_query_insert(obtener_conexion(),query,(username, password))
 
 # get_table(query)
-def userExists(user):
+def userExists(user): # Sirve para comprobar si un usuario existe
     lista = getUserIds()
     if user not in lista[0]:
         return False
     else:
         return True
 
-def checkUserbdd(user, password):
+def checkUserbdd(user, password): # Sirve para confirmar que la contraseña
     var = userExists(user)
     if not var:
         return 0
@@ -70,7 +73,7 @@ def checkUserbdd(user, password):
 # insertCurrentChoice(idGame, actual_id_step, id_answer)
 #def formatText(text, lenLine, split):
 
-def getHeader(text):
+def getHeader(text): # Nos sirve para que nos de un header bonico
     header = "*".center(80,"*") + "\n" + text.center(80,"=") + "\n" + "*".center(80,"*") + "\n"
     return header
 # getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0)
@@ -86,7 +89,7 @@ def getFormatedAdventures(adventures):
 
 #def getHeadeForTableFromTuples(t_name_columns, t_size_columns,title)
 # getTableFromDict(tuple_of_keys, weigth_of_columns, dict_of_data)
-def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions):
+def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions): # Nos sirve para navegar por menus en general, le pasas una opcion y si esta en el rango de opciones correctas (rangelist) pues te devuelve la opcion para guardarla o para darle el uso que sea
     # Mostrar texto del menú
     if textOpts != "":
         print(textOpts)
@@ -102,13 +105,6 @@ def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions):
             if opcion_int in rangeList:
                 return opcion_int
 
-        # if opcion.isdigit():
-        #     opcion_int = int(opcion)
-        #     if opcion_int in dictionary.keys():
-        #         return opcion_int
-
-
-
         print("Invalid option")
 
 # getFormatedTable(queryTable, title="")
@@ -120,7 +116,7 @@ def checkPassword(password): # Falta la comprobacion de minimo una mayus y una m
         print("Password cant have spaces\n")
         return False
     return True
-def checkUser(user):
+def checkUser(user): # Comprobacion de formato al introducir el usuario
     if len(user) <= 6 or len(user) >= 10:
         print("Length of username must be between 6 and 10 characters\n")
         return False

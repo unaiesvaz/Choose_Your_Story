@@ -18,14 +18,14 @@ correct_login = False
 
 user_id = 0
 
-if obtener_conexion() == None:
+if obtener_conexion() == None: # En el caso de que no conecete con la base de datos el programa no se ejecuta
     salir = True
     print("No se pudo conectar a la base de datos\n")
 
 while not salir:
     while menu_principal:
         if not correct_login:
-            opcion = getOpt(menu_sin_logear, "->Option: ", [1, 2, 3, 4, 5],{},{})
+            opcion = getOpt(menu_sin_logear, "->Option: ", [1, 2, 3, 4, 5],{},[])
             if opcion == 1:
                 login = True
                 menu_principal = False
@@ -42,7 +42,7 @@ while not salir:
                 salir = True
                 menu_principal = False
         else:
-            opcion = getOpt(menu_logeado, "->Option: ", [1, 2, 3, 4, 5], {}, {})
+            opcion = getOpt(menu_logeado, "->Option: ", [1, 2, 3, 4, 5], {}, [])
             if opcion == 1:
                 correct_login = False
                 print("Has cerrado sesion")
@@ -171,8 +171,12 @@ while not salir:
                                                                         get_characters()[partidas[clave]["idCharacter"]],
                                                                         str(partidas[clave]["date"]))
 
-        opcion_replay = getOpt(cabecera_partidas+datos_partidas, "->Option: ", partidas.keys(),partidas,[])
-
+        opcion_replay = getOpt(cabecera_partidas+datos_partidas, "->(0 to go Back) Option: ", partidas.keys(),partidas,["0"])
+        opcion_replay = int(opcion_replay)
+        if opcion_replay == 0:
+            replay_adventure = False
+            menu_principal = True
+            break
         choices = partidas[opcion_replay]["steps"]
         id_adventure = partidas[opcion_replay]["idAdventure"]
         id_by_steps = get_id_bystep_adventure()
