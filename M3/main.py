@@ -204,6 +204,92 @@ while not salir:
         menu_principal = True
 
     while informes:
-        print("informes")
-        informes = False
-        menu_principal = True
+        opcion = getOpt("1)respuestas mas usadas\n2)jugador con mas juegos\n3)num avent x usuario\n4) Exit",
+                        "->Option: ", [1, 2, 3, 4], {}, {})
+        if opcion == 1:
+            dicc_adventures = get_adventures_with_chars()
+            dicc_adventures_steps = get_id_bystep_adventure()
+            dicc_step_answer = get_answers_bystep_adventure()
+            lista_answer = []
+
+            for id in dicc_step_answer:
+                lista_answer.append(id)
+
+            for pasada in range(len(lista_answer) - 1):
+                for i in range(len(lista_answer) - 1 - pasada):
+
+                    if dicc_step_answer[lista_answer[i]]["times_reached"] < dicc_step_answer[lista_answer[i + 1]][
+                        "times_reached"]:
+                        lista_answer[i], lista_answer[i + 1] = lista_answer[i + 1], lista_answer[i]
+            lista_answer = lista_answer[:5]
+            cabecera_completa = "{:=^130}\n{:<30}{:<35}{:<40}{:>25}\n{:*^130}".format(
+                "Most used answer",
+                "ID AVENTURA - NOMBRE",
+                "ID PASO - DESCRIPCION",
+                "ID RESPUESTA - DESCRIPCION",
+                "NUMERO VECES SELECCIONADA",
+                ""
+            )
+            datos = ""
+            id_aventura = 0
+            for id in lista_answer:
+                if id[1] > 99 and id[1] < 199:
+                    id_aventura = 1
+                elif id[1] > 299 and id[1] < 399:
+                    id_aventura = 2
+                elif id[1] > 499 and id[1] < 599:
+                    id_aventura = 3
+
+                datos += "{:<1}-{:<20}{:<35}-{}{:<40}-{}{:>25}\n".format(id_aventura,
+                                                                         dicc_adventures[id_aventura]["Name"], id[1],
+                                                                         dicc_adventures_steps[id[1]]["Description"],
+                                                                         id[0], dicc_step_answer[id]["Description"], \
+                                                                         dicc_step_answer[id]["times_reached"])
+
+            print(cabecera_completa)
+            print(datos)
+
+            input("Enter to continue")
+            informes = False
+            menu_principal = True
+        elif opcion == 2:
+            dicc_users = getUsers()
+            player_more_games = ""
+            for id in dicc_users:
+                jug_actual = dicc_users[id]
+                if player_more_games == "" or jug_actual["games_played"] > player_more_games["games_played"]:
+                    player_more_games = jug_actual
+            print("El jugador con mas juegos es", str(player_more_games["username"]), "con",
+                  player_more_games["games_played"], "jugados en total.")
+
+            input("Enter to continue")
+            informes = False
+            menu_principal = True
+        elif opcion == 3:
+            user = input("Usuario a buscar: ")  ###----->>>>>>>> USUARIO A BUSCAR NO COMPRUEBA
+            dicc_users = getUsers()
+            dicc_games = getReplayAdventures()
+            dicc_adventures = get_adventures_with_chars()
+            id_usuario = ""
+            for id in dicc_users:
+                if user == dicc_users[id]["username"]:
+                    id_usuario = id
+            dicc_juegos_usuario = {}
+            id_aventuras_lista = []
+            datos = ""
+            for id in dicc_games:
+
+                if id_usuario == dicc_games[id]["idUser"]:
+                    datos += "{:<20}{:<20}{:>20}\n".format(dicc_games[id]["idAdventure"],
+                                                           dicc_adventures[dicc_games[id]["idAdventure"]]["Name"],
+                                                           str(dicc_games[id]["date"]))
+
+            print(datos)
+
+            input("Enter to continue")
+            informes = False
+            menu_principal = True
+        elif opcion == 4:
+
+            informes = False
+            menu_principal = True
