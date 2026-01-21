@@ -91,8 +91,11 @@ while not salir:
         while not val:
             password = input("Password:\n")
             val = checkPassword(password)
-        print("Correct password")
+        print("Correct password format")
         insertUser(username,password)
+        lista = getUserIds()
+        user_id = len(lista[1])+2
+        correct_login = True
 
         create_user = False
         menu_principal = True
@@ -119,7 +122,7 @@ while not salir:
                 datos_characters += str(clave) + ")" + characters[clave] + "\n"
 
         char_datos = "Characters".center(30, "=") + "\n" + datos_characters
-
+        print(aventuras[opcion_aventura]["characters"])
         opcion_char = getOpt(char_datos, "->Option: ", aventuras[opcion_aventura]["characters"],characters,[])
 
         id_adventure = get_id_bystep_adventure()
