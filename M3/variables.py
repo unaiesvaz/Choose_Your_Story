@@ -57,7 +57,8 @@ def ejecutar_query_insert(conexion, sql, params=None):
 
 FIRST_STEP_BY_ADVENTURE = {
     1: 101,
-    2: 301
+    2: 301,
+    3: 501
 }
 
 resultado = ejecutar_query(obtener_conexion(),"SELECT id_user, username, password, created_at FROM users")

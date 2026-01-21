@@ -23,8 +23,6 @@ def getReplayAdventures():
     return GAMES
 # getChoices()
 # getIdGames()
-#
-#def insertCurrentGame(idGame,idUser,idChar,idAdventure,stepsList):
 def insertCurrentGame(idUser, idChar, idAdventure, stepsList):
     steps_json= json.dumps(stepsList)
     query = "INSERT INTO games (id_user, id_character, id_adventure, current_step, game_date) VALUES (%s, %s, %s, %s, NOW())"
@@ -68,7 +66,7 @@ def checkUserbdd(user, password):
         return -1
     return 1
 
-# setIdGame()
+# setIdGame() SEGURAMENTE NO SE USE PARA NADA
 # insertCurrentChoice(idGame, actual_id_step, id_answer)
 #def formatText(text, lenLine, split):
 
