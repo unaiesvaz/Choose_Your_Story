@@ -1,0 +1,2 @@
+ssh -p 20127 aventura2@ieticloudpro.ieti.cat
+Comando ssh para conectarse al contenedor ubuntu
