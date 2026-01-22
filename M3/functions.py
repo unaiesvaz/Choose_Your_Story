@@ -26,9 +26,6 @@ def getUsers():
     return USERS
 #######FIN DE FUNCIONES PARA DEVOLVER DICCIONARIOS#######
 
-# getChoices()
-# getIdGames()
-
 def insertCurrentGame(idUser, idChar, idAdventure, stepsList): # Esta funcion nos sirve para insertar una partida en la base de datos para mas tarde, poder volver a jugarla (opcion de replay adventure)
     steps_json= json.dumps(stepsList)
     query = "INSERT INTO games (id_user, id_character, id_adventure, current_step, game_date) VALUES (%s, %s, %s, %s, NOW())"
@@ -45,7 +42,7 @@ def insertUser(username, password): # Esta funcion nos sirve para que, al crear 
     query = "INSERT INTO users (username, password, created_at) VALUES (%s, %s, NOW())"
     ejecutar_query_insert(obtener_conexion(),query,(username, password))
 
-# get_table(query)
+
 def userExists(user): # Sirve para comprobar si un usuario existe
     lista = getUserIds()
     if user not in lista[0]:
@@ -69,31 +66,84 @@ def checkUserbdd(user, password): # Sirve para confirmar que la contraseña
         return -1
     return 1
 
-# setIdGame() SEGURAMENTE NO SE USE PARA NADA
-# insertCurrentChoice(idGame, actual_id_step, id_answer)
-#def formatText(text, lenLine, split):
 
-def getHeader(text): # Nos sirve para que nos de un header bonico
-    header = "*".center(80,"*") + "\n" + text.center(80,"=") + "\n" + "*".center(80,"*") + "\n"
+def getHeader(text,ancho): # Nos sirve para que nos de un header bonico
+    header = "*".center(ancho,"*") + "\n" + text.center(ancho,"=") + "\n" + "*".center(ancho,"*") + "\n"
     return header
-# getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0)
-def getFormatedAdventures(adventures):
-    datos = ""
-    cabecera = ("Adventures".center(90,"=") + "\n\n" +
-                "{:<10}{:<30}{:<50}\n".format("Id","Adventure","Description") +
-                "*".center(90,"*") + "\n\n")
-    for clave in adventures:
-        datos += "{:<10}{:<30}{:<50}".format(clave,adventures[clave]["Name"],adventures[clave]["Description"])
-    return cabecera+datos
-#def getFormatedAnswers(idAnswer, text, lenLine, leftMargin):
 
-#def getHeadeForTableFromTuples(t_name_columns, t_size_columns,title)
-# getTableFromDict(tuple_of_keys, weigth_of_columns, dict_of_data)
+def getFormatedBodyColumns(tupla_texts, tupla_sizes, margin=0): # Nos sirve para tener formato correcto en algunos apartados como las respuestas mas usadas en informes
+    columnas = []
+    for i in range(len(tupla_texts)):
+        texto = tupla_texts[i]
+        ancho = tupla_sizes[i]
+
+        palabras = texto.split()
+        lineas = []
+        linea_actual = ""
+
+        for palabra in palabras:
+            if len(linea_actual) + len(palabra) + 1 <= ancho:
+                if linea_actual:
+                    linea_actual += " " + palabra
+                else:
+                    linea_actual = palabra
+            else:
+                if linea_actual:
+                    lineas.append(linea_actual)
+                linea_actual = palabra
+
+        if linea_actual:
+            lineas.append(linea_actual)
+
+        columnas.append(lineas)
+
+    max_lineas = 0
+    for col in columnas:
+        if len(col) > max_lineas:
+            max_lineas = len(col)
+
+    for col in columnas:
+        while len(col) < max_lineas:
+            col.append("")
+
+    resultado = ""
+    for fila in range(max_lineas):
+        for i in range(len(columnas)):
+            texto_linea = columnas[i][fila].ljust(tupla_sizes[i])
+            resultado += texto_linea
+
+            if i < len(columnas) - 1:
+                resultado += " " * margin
+
+        resultado += "\n"
+
+    return resultado
+
+def getFormatedAdventures(adventures): # Nos sirve para tener un formato correcto de las aventuras
+    texto = ""
+    for id_adv in adventures:
+        id_str = str(id_adv)
+        nombre = adventures[id_adv]["Name"]
+        descripcion = adventures[id_adv]["Description"]
+
+        texto += getFormatedBodyColumns((id_str, nombre, descripcion),(12, 30, 48), margin=0)
+    return texto
+
+def getHeadeForTableFromTuples(t_name_columns, t_size_columns): # Esta funcion nos sirve para sacar cabeceras de tablas
+    ancho_final = 0
+    for ancho in t_size_columns:
+        ancho_final += ancho
+    texto = "=".center(ancho_final,"=") + "\n"
+
+    for i in range(len(t_name_columns)):
+        texto += t_name_columns[i].ljust(t_size_columns[i])
+    texto += "\n"
+    texto += "*".center(ancho_final,"*") + "\n"
+
+    return texto
+
 def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions): # Nos sirve para navegar por menus en general, le pasas una opcion y si esta en el rango de opciones correctas (rangelist) pues te devuelve la opcion para guardarla o para darle el uso que sea
-    # Mostrar texto del menú
-    if textOpts != "":
-        print(textOpts)
-
+    print(textOpts)
     while True:
         opcion = input(inputOptText)
 
@@ -101,14 +151,13 @@ def getOpt(textOpts, inputOptText, rangeList, dictionary, exceptions): # Nos sir
             return opcion
 
         if opcion.isdigit():
-            opcion_int = int(opcion)
-            if opcion_int in rangeList:
-                return opcion_int
+            opcion = int(opcion)
+            if opcion in rangeList:
+                return opcion
 
         print("Invalid option")
 
-# getFormatedTable(queryTable, title="")
-def checkPassword(password): # Falta la comprobacion de minimo una mayus y una minus
+def checkPassword(password): # Comprobacion del formato de la contrasena
     if len(password) <= 8 or len(password) >= 12:
         print("Length of password must be between 8 and 12 characters\n")
         return False
@@ -121,6 +170,6 @@ def checkUser(user): # Comprobacion de formato al introducir el usuario
         print("Length of username must be between 6 and 10 characters\n")
         return False
     return True
-# replay(choices)
+
 
 

@@ -1,9 +1,8 @@
 from functions import *
 from db import obtener_conexion
 
-menu_logeado = "1. Logout\n2. Play\n3. Replay Adventure\n4. Reports\n5. Exit\n"
-menu_sin_logear = "1. Login\n2. Create User\n3. Replay Adventure\n4. Reports\n5. Exit\n"
-cabecera_partidas = "=".center(80,"=") + "\n" + "Id".ljust(10) +"Username".ljust(15) + "Name".ljust(30) + "CharacterName".ljust(25) +"date".ljust(20) + "\n" + "*".center(80,"*") + "\n\n"
+menu_logeado = "\n1. Logout\n2. Play\n3. Replay Adventure\n4. Reports\n5. Exit\n"
+menu_sin_logear = "\n1. Login\n2. Create User\n3. Replay Adventure\n4. Reports\n5. Exit\n"
 
 
 salir = False
@@ -105,15 +104,18 @@ while not salir:
         datos_characters = ""
         aventuras = get_adventures_with_chars()
 
-        opcion_aventura = getOpt(getFormatedAdventures(aventuras), "->Option: (0 to go back)\n", aventuras.keys(),aventuras,["0"])
+        opcion_aventura = getOpt(getHeader("Adventures",100)+getFormatedAdventures(aventuras), "->Option: (0 to go back)\n", aventuras.keys(),aventuras,["0"])
         opcion_aventura = int(opcion_aventura)
         if opcion_aventura == 0:
             play_adventure = False
             menu_principal = True
             break
 
-        datos_aventura = "{}{}\n\n{}{}\n\n".format("Adventure:".ljust(15),aventuras[opcion_aventura]["Name"].ljust(65),"Description:".ljust(15),aventuras[opcion_aventura]["Description"].ljust(65))
-        print(getHeader(aventuras[opcion_aventura]["Name"])+datos_aventura)
+        nombre = aventuras[opcion_aventura]["Name"]
+        descripcion = aventuras[opcion_aventura]["Description"]
+        datos_aventura = getFormatedBodyColumns((nombre, descripcion), (30, 70), margin=2)
+
+        print(getHeader(aventuras[opcion_aventura]["Name"],100)+getHeadeForTableFromTuples(("Adventure","Description"),(30,70))+datos_aventura)
         input("Enter to Continue")
 
         characters = get_characters()
@@ -121,7 +123,7 @@ while not salir:
             if clave in aventuras[opcion_aventura]["characters"]:
                 datos_characters += str(clave) + ")" + characters[clave] + "\n"
 
-        char_datos = "Characters".center(30, "=") + "\n" + datos_characters
+        char_datos = getHeader("Characters",30) + datos_characters
         print(aventuras[opcion_aventura]["characters"])
         opcion_char = getOpt(char_datos, "->Option: ", aventuras[opcion_aventura]["characters"],characters,[])
 
@@ -132,7 +134,7 @@ while not salir:
         lista_steps = []
         while True:
             datos_rutas = ""
-            cabecera_historia = getHeader(aventuras[opcion_aventura]["Name"])
+            cabecera_historia = getHeader(aventuras[opcion_aventura]["Name"],80)
             if id_adventure[first_step]["Final_Step"]:
                 print(id_adventure[first_step]["Description"])
                 input("Enter to Continue")
@@ -166,24 +168,22 @@ while not salir:
         datos_partidas = ""
         partidas = getReplayAdventures()
         for clave in partidas.keys():
-            datos_partidas += "{:<10}{:<15}{:<30}{:<25}{:<20}\n".format(clave,getUsers()[partidas[clave]["idUser"]]["username"],
-                                                                        get_adventures_with_chars()[partidas[clave]["idAdventure"]]["Name"],
-                                                                        get_characters()[partidas[clave]["idCharacter"]],
-                                                                        str(partidas[clave]["date"]))
+            datos_partidas += getFormatedBodyColumns((str(clave),getUsers()[partidas[clave]["idUser"]]["username"],get_adventures_with_chars()[partidas[clave]["idAdventure"]]["Name"],get_characters()[partidas[clave]["idCharacter"]],str(partidas[clave]["date"])),(10,15,30,25,20))
 
-        opcion_replay = getOpt(cabecera_partidas+datos_partidas, "->(0 to go Back) Option: ", partidas.keys(),partidas,["0"])
+        opcion_replay = getOpt(getHeader("Replay Adventures",100) + getHeadeForTableFromTuples(("Id","Username","Name","CharacterName","date"),(10,15,30,25,20))+datos_partidas, "->(0 to go Back) Option: ", partidas.keys(),partidas,["0"])
         opcion_replay = int(opcion_replay)
         if opcion_replay == 0:
             replay_adventure = False
             menu_principal = True
             break
+
         choices = partidas[opcion_replay]["steps"]
         id_adventure = partidas[opcion_replay]["idAdventure"]
         id_by_steps = get_id_bystep_adventure()
         answers_by_step = get_answers_bystep_adventure()
         current_step = get_first_step_adventure(id_adventure)
 
-        print(getHeader(get_adventures_with_chars()[id_adventure]["Name"]))
+        print(getHeader(get_adventures_with_chars()[id_adventure]["Name"],100))
         for choice in choices:
 
             print(id_by_steps[current_step]["Description"])
@@ -204,8 +204,8 @@ while not salir:
         menu_principal = True
 
     while informes:
-        opcion = getOpt("1)respuestas mas usadas\n2)jugador con mas juegos\n3)num avent x usuario\n4) Exit",
-                        "->Option: ", [1, 2, 3, 4], {}, {})
+        opcion = getOpt("1)Respuestas más usadas\n2)Jugador con más partidas\n3)Partidas jugadas por usuario\n4)Exit","->Option: ", [1, 2, 3, 4], {}, [])
+
         if opcion == 1:
             dicc_adventures = get_adventures_with_chars()
             dicc_adventures_steps = get_id_bystep_adventure()
@@ -217,19 +217,11 @@ while not salir:
 
             for pasada in range(len(lista_answer) - 1):
                 for i in range(len(lista_answer) - 1 - pasada):
-
-                    if dicc_step_answer[lista_answer[i]]["times_reached"] < dicc_step_answer[lista_answer[i + 1]][
-                        "times_reached"]:
+                    if dicc_step_answer[lista_answer[i]]["times_reached"] < dicc_step_answer[lista_answer[i + 1]]["times_reached"]:
                         lista_answer[i], lista_answer[i + 1] = lista_answer[i + 1], lista_answer[i]
             lista_answer = lista_answer[:5]
-            cabecera_completa = "{:=^130}\n{:<30}{:<35}{:<40}{:>25}\n{:*^130}".format(
-                "Most used answer",
-                "ID AVENTURA - NOMBRE",
-                "ID PASO - DESCRIPCION",
-                "ID RESPUESTA - DESCRIPCION",
-                "NUMERO VECES SELECCIONADA",
-                ""
-            )
+
+            cabecera_informes = getHeader("Informes",169) + getHeadeForTableFromTuples(("Id Aventura","Nombre","Id Paso", "Descripcion","Id Respuesta", "Descripcion","Times selected"),(14,30,10,42,15,42,16))
             datos = ""
             id_aventura = 0
             for id in lista_answer:
@@ -240,14 +232,9 @@ while not salir:
                 elif id[1] > 499 and id[1] < 599:
                     id_aventura = 3
 
-                datos += "{:<1}-{:<20}{:<35}-{}{:<40}-{}{:>25}\n".format(id_aventura,
-                                                                         dicc_adventures[id_aventura]["Name"], id[1],
-                                                                         dicc_adventures_steps[id[1]]["Description"],
-                                                                         id[0], dicc_step_answer[id]["Description"], \
-                                                                         dicc_step_answer[id]["times_reached"])
+                datos += getFormatedBodyColumns((str(id_aventura),dicc_adventures[id_aventura]["Name"],str(id[1]),dicc_adventures_steps[id[1]]["Description"],str(id[0]), dicc_step_answer[id]["Description"],str(dicc_step_answer[id]["times_reached"])),(12,28,8,40,13,40,14),margin=2)
 
-            print(cabecera_completa)
-            print(datos)
+            print(cabecera_informes+datos)
 
             input("Enter to continue")
             informes = False
@@ -259,14 +246,19 @@ while not salir:
                 jug_actual = dicc_users[id]
                 if player_more_games == "" or jug_actual["games_played"] > player_more_games["games_played"]:
                     player_more_games = jug_actual
-            print("El jugador con mas juegos es", str(player_more_games["username"]), "con",
-                  player_more_games["games_played"], "jugados en total.")
 
+            print("El jugador con más partidas es {} con {} partidas jugadas en total".format(player_more_games["username"],player_more_games["games_played"]))
             input("Enter to continue")
             informes = False
             menu_principal = True
         elif opcion == 3:
-            user = input("Usuario a buscar: ")  ###----->>>>>>>> USUARIO A BUSCAR NO COMPRUEBA
+            user = input("Usuario a buscar: ")
+            val = userExists(user)
+            while not val:
+                print("Not existing user")
+                user = input("Usuario a buscar: ")
+                val = userExists(user)
+
             dicc_users = getUsers()
             dicc_games = getReplayAdventures()
             dicc_adventures = get_adventures_with_chars()
@@ -277,19 +269,16 @@ while not salir:
             dicc_juegos_usuario = {}
             id_aventuras_lista = []
             datos = ""
+            cabecera_last_games = getHeader("Games played by {}".format(user),70)+getHeadeForTableFromTuples(("Id Adventure","Adventure Name","date"),(20,30,20))
             for id in dicc_games:
-
                 if id_usuario == dicc_games[id]["idUser"]:
-                    datos += "{:<20}{:<20}{:>20}\n".format(dicc_games[id]["idAdventure"],
-                                                           dicc_adventures[dicc_games[id]["idAdventure"]]["Name"],
-                                                           str(dicc_games[id]["date"]))
+                    datos += getFormatedBodyColumns((str(dicc_games[id]["idAdventure"]),dicc_adventures[dicc_games[id]["idAdventure"]]["Name"],str(dicc_games[id]["date"])),(20,30,20))
 
-            print(datos)
+            print(cabecera_last_games+datos)
 
             input("Enter to continue")
             informes = False
             menu_principal = True
         elif opcion == 4:
-
             informes = False
             menu_principal = True
